@@ -77,5 +77,5 @@ end
 
 # "Tirar o BV" é uma expressão que significa beijar pela primeira vez,
 # ou seja, perder a virgindade na boca. É uma gíria popularmente usada entre adolescentes.
-# Fonte: Google, 12/02/2025. Eu sou o porteiro da escola onde trabalho, atualmente, e obsevo.
+# Fonte: Google, 12/02/2025. Eu sou o porteiro da escola onde trabalho, atualmente, e observo.
 # Autor do jogo: Manoel Carlo Bertin.
