@@ -16,20 +16,20 @@ numero = gets.chomp.to_i
 
 puts <<~MENU
   Em qual base?
-  1 = Binário
-  2 = Octal
-  3 = Hexadecimal
+  \e[1;32m1 = Binário\e[0m
+  \e[1;33m2 = Octal\e[0m
+  \e[1;34m3 = Hexadecimal\e[0m
 MENU
 
 base = gets.chomp
 
 case base
 when '1'
-  puts "Binário: #{converter_numero(numero, 2)}"
+  puts "\e[1;31mBinário:\e[0m #{converter_numero(numero, 2)}"
 when '2'
-  puts "Octal: #{converter_numero(numero, 8)}"
+  puts "\e[1;31mOctal:\e[0m #{converter_numero(numero, 8)}"
 when '3'
-  puts "Hexadecimal: 0x#{converter_numero(numero, 16)}"
+  puts "\e[1;31mHexadecimal:\e[0m 0x#{converter_numero(numero, 16)}"
 else
-  puts "Digite uma base válida."
+  puts "\e[1;31mDigite uma base válida.\e[0m"
 end
