@@ -1,0 +1,88 @@
+1. O que esse código faz?
+
+Esse código calcula o Índice de Massa Corporal (IMC) e informa ao usuário:
+
+    Qual é o seu IMC.
+    Em qual faixa de peso ele se encontra (abaixo do peso, normal, sobrepeso, obesidade, etc.).
+    Se ele precisa ganhar ou perder peso para atingir o peso ideal.
+    Qual é a faixa de peso ideal para a altura dele.
+
+2. Estrutura do código
+
+O código está bem organizado e modularizado, o que significa que cada funcionalidade
+  foi separada em um método específico. Isso facilita a manutenção e reutilização do código.
+
+Agora, vamos analisar cada parte.
+
+3. Entrada de dados
+
+peso = obter_valor_positivo("Digite o seu peso (kg): ")
+altura = obter_valor_positivo("Digite a sua altura (m): ")
+
+3.1. O que acontece aqui: * def obter_valor_positivo(mensagem) * ?
+
+    O usuário digita o peso e a altura.
+
+    Esses valores são passados para a função * obter_valor_positivo *,
+    que garante que os números inseridos sejam positivos (não pode ser 0 ou negativo).
+
+    O método recebe uma mensagem (mensagem) para exibir ao usuário.
+Ele entra em um loop (loop do ... end) para garantir que o valor digitado seja positivo.
+Se o usuário digitar um valor inválido (0 ou negativo), o programa pede um novo valor.
+Assim que o usuário digitar um valor válido, o loop para (break),* break if valor.positive? *
+e o método retorna o número * return valor *.
+
+3.2. O que acontece aqui: * def calcular_imc(peso, altura) * ?
+
+    O IMC é calculado usando a fórmula:
+    O resultado é arredondado para 2 casas decimais com * .round(2) *.
+
+3.3. O que acontece aqui: * def classificar_imc(imc) * ?
+
+    O método recebe o IMC calculado.
+    Utiliza um case para classificar o IMC em diferentes faixas.
+    Retorna uma mensagem de acordo com a classificação.
+
+3.4. O que acontece aqui: * def calcular_peso_ideal(altura, peso) * ?
+
+    peso_min = (18.5 * altura**2).round(1)
+    peso_max = (24.9 * altura**2).round(1)
+
+    Eles representam os limites de IMC considerados saudáveis.
+
+    # O método .round(1) arredonda o número para 1 casa decimal.
+    # Exemplo: 65.432.round(1) → 65.4.
+
+    [(peso_min - peso).round(1), 0].max:
+    # [valor, 0] cria um array com dois elementos: O 1º é o resultado do cálculo. O 2º é Zero.
+
+    # o método * .max *  → retorna o maior valor entre os dois.
+    Ex: [(-3.2).round(1), 0].max  # Retorna 0 e isso Garante que o valor NUNCA seja negativo.
+
+    # Dentro do array[] → Se o valor(cálculo) for negativo, retorna 0.
+
+3.4.1. Retorno como um Hash
+
+    { peso_min: peso_min, peso_max: peso_max, peso_a_ganhar: peso_a_ganhar, peso_a_perder: peso_a_perder }
+
+    # Criamos um hash contendo os resultados.
+    # Cada chave representa um dado calculado.
+    Exemplo de saída:
+
+        {
+      peso_min: 60.5,
+      peso_max: 75.3,
+      peso_a_ganhar: 5.0,
+      peso_a_perder: 0.0
+    }
+    # Esse hash acima facilita o acesso aos valores no restante do programa.
+
+4. Conclusão - * Aqui estão os métodos do Ruby que usamos *:
+
+✔ ** → Elevação a potência (altura ao quadrado).
+
+✔ .round(1) → Arredondamento para uma casa decimal.
+
+✔ [].max → Retorna o maior valor do array (evita valores negativos).
+
+✔ Hash {} → Estrutura de chave-valor para armazenar os resultados.
