@@ -71,3 +71,9 @@ end
 
 # Executa o programa
 Pagamento.new
+
+# 🚀 Código mais limpo e modular.
+# 🛠 Código reutilizável para qualquer cálculo de pagamento.
+# ✅ Seguindo boas práticas Ruby (OOP, DRY, SRP).
+# 🎯 Mais legível, eficiente e seguro para o usuário.
+# 😃 Agora o programa está mais organizado, intuitivo e profissional!
