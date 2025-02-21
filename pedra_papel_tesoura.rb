@@ -1,10 +1,10 @@
 class Jokenpo
   OPTIONS = { 0 => "Pedra", 1 => "Papel", 2 => "Tesoura" }
-
+  # → Essa constante * OPTIONS * armazena 3 chaves e 3 valores num Hash.
   def initialize
     exibir_menu
     @jogador = obter_jogada
-    @computador = rand(0..2)
+    @computador = rand(0..2) # → Não precisei importar gem randomica.
     iniciar_contagem
     exibir_escolhas
     determinar_vencedor
@@ -31,7 +31,7 @@ class Jokenpo
   def iniciar_contagem
     ["JO", "KEN", "PÔ!"].each do |palavra|
       puts "\e[1;33m#{palavra}\e[0m"
-      sleep(0.7) # → Simula o "JO-KEN-PÔ!". A contagem pausada.
+      sleep(0.7) # → Simula o "JO-KEN-PÔ!". A contagem pausada. # → * Não precisei importar * a gem de tempo.
     end
   end
 
