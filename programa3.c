@@ -6,23 +6,18 @@
 // Função para capitalizar o nome
 void capitalizarNome(char *nome)
 {
-  int novo_nome = 1; // Define que o próximo caractere deve ser maiúsculo
+  int proxima_letra_maiuscula = 1;
 
   for (int i = 0; nome[i] != '\0'; i++)
   {
-    if (novo_nome && isalpha(nome[i]))
+    if (isalpha(nome[i]))
     {
-      nome[i] = toupper(nome[i]); // Primeira letra maiúscula
-      novo_nome = 0;
+      nome[i] = proxima_letra_maiuscula ? toupper(nome[i]) : tolower(nome[i]);
+      proxima_letra_maiuscula = 0;
     }
-    else
+    else if (nome[i] == ' ')
     {
-      nome[i] = tolower(nome[i]); // Restante minúsculo
-    }
-
-    if (nome[i] == ' ')
-    {
-      novo_nome = 1; // Próxima palavra começa após um espaço
+      proxima_letra_maiuscula = 1;
     }
   }
 }
@@ -30,44 +25,59 @@ void capitalizarNome(char *nome)
 // Função para classificar a idade
 const char *classificarIdade(int idade)
 {
-  if (idade < 12)
-    return "Criança 🧒";
-  else if (idade < 18)
-    return "Adolescente 🧑";
-  else
-    return "Adulto 🏆";
+  return (idade < 12) ? "Criança 🧒" : (idade < 18) ? "Adolescente 🧑"
+                                                    : "Adulto 🏆";
+}
+
+// Função para obter o ano atual
+int obterAnoAtual()
+{
+  time_t t = time(NULL);
+  struct tm *data_atual = localtime(&t);
+  return data_atual->tm_year + 1900;
+}
+
+// Função para obter e validar o nome
+void obterNome(char *nome, int tamanho)
+{
+  do
+  {
+    printf("Digite seu nome: ");
+    fgets(nome, tamanho, stdin);
+    nome[strcspn(nome, "\n")] = '\0'; // Remove o \n do final
+    if (strlen(nome) < 2)
+    {
+      printf("Nome inválido. Digite novamente.\n");
+    }
+  } while (strlen(nome) < 2);
+
+  capitalizarNome(nome);
+}
+
+// Função para obter e validar o ano de nascimento
+int obterAnoNascimento(int ano_atual)
+{
+  int ano_nascimento;
+  do
+  {
+    printf("Digite seu ano de nascimento: ");
+    scanf("%d", &ano_nascimento);
+    if (ano_nascimento < 1900 || ano_nascimento > ano_atual)
+    {
+      printf("Ano inválido. Digite um ano entre 1900 e %d.\n", ano_atual);
+    }
+  } while (ano_nascimento < 1900 || ano_nascimento > ano_atual);
+  return ano_nascimento;
 }
 
 int main()
 {
   char nome[50];
-  int ano_nascimento, idade;
-  time_t t = time(NULL);
-  struct tm *data_atual = localtime(&t);
-  int ano_atual = data_atual->tm_year + 1900;
+  int ano_nascimento, idade, ano_atual = obterAnoAtual();
 
-  printf("Digite seu nome: ");
-  fgets(nome, sizeof(nome), stdin);
-  nome[strcspn(nome, "\n")] = '\0'; // Remove o \n do final
-
-  while (strlen(nome) < 2)
-  {
-    printf("Nome inválido. Digite novamente: ");
-    fgets(nome, sizeof(nome), stdin);
-    nome[strcspn(nome, "\n")] = '\0';
-  }
-
-  capitalizarNome(nome); // Capitaliza o nome
-
-  printf("Digite seu ano de nascimento: ");
-  scanf("%d", &ano_nascimento);
-
-  while (ano_nascimento < 1900 || ano_nascimento > ano_atual)
-  {
-    printf("Ano inválido. Digite novamente: ");
-    scanf("%d", &ano_nascimento);
-  }
-
+  getchar(); // Evita problemas com buffer do teclado ao usar fgets após scanf, entrava * em loop *
+  obterNome(nome, sizeof(nome));
+  ano_nascimento = obterAnoNascimento(ano_atual);
   idade = ano_atual - ano_nascimento;
 
   printf("\n============================\n");
