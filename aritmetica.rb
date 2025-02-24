@@ -1,3 +1,4 @@
+print('\033[4;35mVejamos a progressão aritmética\033[m')
 print "Informe o primeiro termo da PA: "
 n = gets.to_i
 
