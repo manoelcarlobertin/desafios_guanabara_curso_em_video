@@ -20,10 +20,16 @@ def menu
   puts "2 - Add the Values".colorize(:green)
   puts "3 - Multiply the Values".colorize(:cyan)
   puts "4 - Enter New Values".colorize(:light_red)
-  puts "5 - Exit".colorize(:red)
+  puts "5 - Factorial of the 1st Value".colorize(:green)
+  puts "6 - Exit".colorize(:red)
   print "\nYour Option: ".colorize(:light_yellow)
   input = gets.chomp
   input.match?(/^\d+$/) ? input.to_i : -1
+end
+
+# Função para calcular o fatorial usando loop
+def factorial(n1)
+  (1..n1).reduce(1, :*)
 end
 
 # Função para solicitar números com validação
@@ -34,10 +40,10 @@ def get_numbers
       print "Enter the #{order} value: ".colorize(:green)
       input = gets.chomp
       if input.match?(/^\d+$/)
-        index == 0 ? n1 = input.to_i : n2 = input.to_i
+        index.zero? ? n1 = input.to_i : n2 = input.to_i
         break
       else
-        puts "Invalid input! Please enter a valid number.".colorize(:red)
+        puts 'Invalid input! Please enter a valid number.'.colorize(:red)
       end
     end
   end
@@ -60,20 +66,27 @@ loop do
   case option
   when 1
     greater = [n1, n2].max
-    show_message("The greater value between #{n1} and #{n2} is #{greater}!", :green)
+    show_message("The greater value between * #{n1} and #{n2} * is #{greater}.", :green)
   when 2
     sum = n1 + n2
-    show_message("The sum of #{n1} and #{n2} is #{sum}!", :green)
+    show_message("The sum of * #{n1} and #{n2} * is #{sum}.", :green)
   when 3
     product = n1 * n2
-    show_message("The product of #{n1} and #{n2} is #{product}!", :green)
+    show_message("The product of * #{n1} and #{n2} * is #{product}.", :green)
   when 4
     n1, n2 = get_numbers
-    show_message("New values entered successfully!", :cyan)
+    show_message('New values entered successfully!', :cyan)
   when 5
+    if n1&.is_a?(Integer) && n1 >= 0
+      result = factorial(n1)
+      show_message("Factorial (#{n1}!) done. It is #{result}.", :green)
+    else
+      show_message('Invalid input! Please enter a valid number.', :red)
+    end
+  when 6
     puts "Thank you! Goodbye! #{random_emoji}".colorize(:magenta)
     break
   else
-    puts "Invalid Option! Please Try Again...".colorize(:red)
+    puts 'Invalid Option! Please Try Again...'.colorize(:red)
   end
 end
