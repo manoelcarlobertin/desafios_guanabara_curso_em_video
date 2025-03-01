@@ -1,0 +1,42 @@
+📄 Documentação do Código AlarmClock (Português - Brasil 🇧🇷)
+--------------------------------------------------------------------------------------------------------
+Este código implementa um programa de Relógio Despertador (Alarm Clock) em Ruby,
+
+que permite ao usuário definir uma hora e minuto para o alarme em formato de 12 horas.
+
+Quando o horário definido é atingido, o programa exibe uma mensagem indicando que o alarme foi acionado.
+
+O código utiliza a biblioteca colorize para colorir mensagens no terminal
+
+e a biblioteca time para manipulação de datas e horas.
+
+1. Cabeçalho
+
+O método header(text) exibe um título formatado para o programa, com bordas e texto centralizado.
+
+2. Entrada de Dados
+
+O método load_number(prompt, range) solicita ao usuário para digitar:
+
+    Hora (de 1 a 12)
+    Minuto (de 0 a 59)
+
+Caso o valor não seja válido, o programa exibe a mensagem.
+
+3. Verificação do Alarme
+
+O programa entra em um loop infinito
+
+verificando a cada segundo se o horário atual é igual ao horário definido pelo usuário.
+
+4. 🔍 Validações
+
+    A hora deve estar entre 1 e 12.
+    Os minutos devem estar entre 0 e 59.
+    Apenas números positivos são aceitos.
+
+5. autor: https://github.com/manoelcarlobertin/desafios_guanabara_curso_em_video
+
+6. Sugestão de Melhoria
+
+Interface gráfica para facilitar o uso.
