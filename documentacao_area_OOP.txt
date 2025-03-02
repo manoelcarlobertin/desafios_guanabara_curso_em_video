@@ -1,0 +1,23 @@
+Orientação a Objetos (OO):
+
+1. A classe FiguraGeometrica organiza todo o programa, facilitando a manutenção e reutilização do código.
+
+2. Métodos de classe centralizam as responsabilidades, tornando o código mais limpo e intuitivo.
+
+3. Validações:
+O método get_input garante que os valores inseridos sejam números válidos.
+
+4. Interatividade Colorida:
+Utilização da gem colorize para tornar a interação mais divertida.
+
+5. Performance:
+O algoritmo é eficiente, utilizando apenas loops e cálculos matemáticos sem operações complexas.
+
+6. Escalabilidade:
+Caso deseje adicionar novas figuras geométricas, basta incluir mais opções no método calcular_area.
+
+---------------------------------------------------------------------------------------------------
+
+Documentação do Programa de Cálculo de Áreas de Figuras Geométricas no link abaixo:
+
+https://chatgpt.com/canvas/shared/67c3e5f17fac819181ed442da830699a
