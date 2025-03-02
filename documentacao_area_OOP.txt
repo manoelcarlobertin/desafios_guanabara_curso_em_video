@@ -5,7 +5,8 @@ Orientação a Objetos (OO):
 2. Métodos de classe centralizam as responsabilidades, tornando o código mais limpo e intuitivo.
 
 3. Validações:
-O método get_input garante que os valores inseridos sejam números válidos.
+O método load_input garante que os valores inseridos sejam números válidos.
+ad
 
 4. Interatividade Colorida:
 Utilização da gem colorize para tornar a interação mais divertida.
