@@ -1,19 +1,32 @@
 require 'colorize'
 require 'io/console'
 require 'tty-spinner'
+require 'tty-prompt'
+require 'json'
+require 'prawn'
+require 'date'
 
 class ShoppingCart
+  attr_accessor :products, :prices
+
+  FILE_PATH = 'shopping_history.json'.freeze
+
   def initialize
     @products = []
     @prices = []
-    @spinner = TTY::Spinner.new("🌟 Carregando: [:spinner]", format: :pulse_2)
+    @spinner = TTY::Spinner.new('🌟 Carregando: [:spinner]', format: :pulse_2)
+    @prompt = TTY::Prompt.new
   end
 
   def start
     show_header('🛒 Bem-vindo à Leroy Marlin')
+
+    load_history if File.exist?(FILE_PATH)
+
     loop do
       product = load_product
       price = load_price
+      apply_discount(price, product)
 
       @products << product
       @prices << price
@@ -21,7 +34,9 @@ class ShoppingCart
       break unless continue_shopping?
     end
 
+    save_to_json
     show_summary
+    generate_pdf
   end
 
   private
@@ -61,17 +76,16 @@ class ShoppingCart
   end
 
   def continue_shopping?
-    loop do
-      print '➕ Deseja registrar outro produto? [S/N]: '.colorize(:blue)
-      choice = gets.chomp.strip.upcase
+    choices = { 'Sim' => true, 'Não' => false }
+    @prompt.select('➕ Deseja registrar outro produto?', choices)
+  end
 
-      case choice
-      when 'S' then return true
-      when 'N' then return false
-      else
-        show_message('⚠️ Opção inválida! Use [S]im ou [N]ão.', :red)
-      end
+  def apply_discount(price, product)
+    if price >= 1000
+      show_message("🎯 Desconto de 10% aplicado para #{product}!", :green)
+      price *= 0.9
     end
+    price
   end
 
   def show_summary
@@ -94,8 +108,51 @@ class ShoppingCart
     puts '=' * 60
     show_message('🎯 Obrigado pela preferência! Até logo!', :blue)
   end
+
+  def save_to_json
+    data = {
+      date: Time.now,
+      products: @products,
+      prices: @prices
+    }
+
+    File.open(FILE_PATH, 'a') do |file|
+      file.puts(JSON.generate(data))
+    end
+    show_message('💾 Compra salva com sucesso!', :green)
+  end
+
+  def load_history
+    show_message('📄 Carregando Histórico...', :yellow)
+    file = File.read(FILE_PATH)
+    history = JSON.parse(file)
+
+    history.each do |purchase|
+      puts "🗓️ #{purchase['date']}"
+      purchase['products'].each_with_index do |product, index|
+        puts "#{index + 1}. #{product} - R$#{purchase['prices'][index]}"
+      end
+      puts '-' * 40
+    end
+  end
+
+  def generate_pdf
+    Prawn::Document.generate("resumo_compra_#{Time.now.strftime('%Y%m%d')}.pdf") do
+      text 'Resumo da Compra', size: 20, style: :bold
+      move_down 20
+
+      @products.each_with_index do |product, index|
+        text "#{index + 1}. #{product} - R$#{'%.2f' % @prices[index]}"
+      end
+
+      move_down 20
+      text "Valor Total: R$#{'%.2f' % @prices.sum}", size: 15, color: '009900'
+      text "Data da Compra: #{Time.now.strftime('%d/%m/%Y %H:%M:%S')}"
+    end
+
+    show_message('📄 PDF gerado com sucesso!', :green)
+  end
 end
 
-# Instância do Carrinho
 cart = ShoppingCart.new
 cart.start
