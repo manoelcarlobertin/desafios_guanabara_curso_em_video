@@ -16,8 +16,8 @@ class ShoppingCart
   attr_accessor :products, :prices
 
   def initialize
-    @products = []
-    @prices = []
+    @products ||= [] # Garante que o Array nunca será nil.
+    @prices ||= []
     @spinner = TTY::Spinner.new('🌟 Carregando: [:spinner]', format: :pulse_2)
     @prompt = TTY::Prompt.new
   end
