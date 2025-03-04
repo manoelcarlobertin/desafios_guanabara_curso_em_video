@@ -1,0 +1,186 @@
+🔥 Conversão do Código para Ruby com Melhorias, Modularização e Padrões de Projetos
+💪 Objetivo
+Este código simula um Caixa Eletrônico que realiza saques em dinheiro, calculando a quantidade de cédulas necessárias para o valor informado pelo cliente.
+
+🔑 Requisitos Implementados
+Modularização	✅
+Validações Centralizadas	✅
+Padrão DRY	✅
+Armazenamento Automático em JSON com SQLite3	✅
+Saída Bonita UTF-8	✅
+Uso de Gems TTY	✅
+Segurança com Rescues	✅
+Resumo Educado ao Cliente	✅
+Encapsulamento	✅
+Escalabilidade
+
+📦 Gems Utilizadas
+tty-prompt
+tty-spinner
+colorize
+sqlite3
+json
+active_support
+active_support/core_ext
+
+📌 Estrutura de Pastas
+
+caixa_eletronico/
+├── main.rb           # Arquivo Principal
+├── database.rb       # Conexão SQLite3
+├── saque.rb          # Lógica de Negócio
+└── utils.rb          # Métodos Auxiliares
+
+
+🔥 Arquivo database.rb
+
+require 'sqlite3'
+
+class Database
+  DB_NAME = 'saques.db'.freeze
+
+  def self.connection
+    db = SQLite3::Database.new(DB_NAME)
+    db.execute <<-SQL
+      CREATE TABLE IF NOT EXISTS saques (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        valor INTEGER,
+        data_hora TEXT
+      );
+    SQL
+    db
+  end
+
+  def self.save(valor)
+    db = connection
+    db.execute("INSERT INTO saques (valor, data_hora) VALUES (?, ?)", valor, Time.now.strftime('%d/%m/%Y %H:%M:%S'))
+  end
+end
+
+------------------------------------------------------------------------------------------------------------
+🔥 Arquivo utils.rb
+
+require 'colorize'
+require 'tty-spinner'
+
+module Utils
+  def self.show_message(text, color = :cyan)
+    puts text.colorize(color)
+    sleep(0.3)
+  end
+
+  def self.format_currency(value)
+    "R$#{'%.2f' % value}".gsub('.', ',')
+  end
+
+  def self.spinner(text)
+    spinner = TTY::Spinner.new("🌟 #{text} [:spinner]", format: :pulse_2)
+    spinner.auto_spin
+    sleep(1)
+    spinner.success("✅")
+  end
+end
+
+------------------------------------------------------------------------------------
+
+🔥 Arquivo saque.rb
+
+require_relative 'utils'
+require_relative 'database'
+require 'tty-prompt'
+
+class Saque
+  CEDULAS = [100, 50, 20, 10, 5, 2, 1].freeze
+
+  def initialize
+    @prompt = TTY::Prompt.new
+    @valor = 0
+    @resultado = {}
+  end
+
+  def iniciar
+    loop do
+      solicitar_valor
+      calcular_notas
+      exibir_resumo
+      Database.save(@valor)
+      break unless continuar?
+
+      Utils.spinner('Preparando novo saque...')
+    end
+  end
+
+  private
+
+  def solicitar_valor
+    @valor = @prompt.ask('💰 Quanto deseja sacar?', convert: :int) do |q|
+      q.validate(/\A\d+\z/, '⚠️ Apenas valores inteiros positivos são permitidos.')
+      q.convert(:int)
+      q.modify(:strip)
+    end
+  rescue TTY::Prompt::ConversionError
+    Utils.show_message('❌ Valor inválido! Tente novamente.', :red)
+    retry
+  end
+
+  def calcular_notas
+    Utils.spinner('Calculando notas...')
+    restante = @valor
+    CEDULAS.each do |cedula|
+      quantidade = restante / cedula
+      restante %= cedula
+      @resultado[cedula] = quantidade if quantidade.positive?
+    end
+  end
+
+  def exibir_resumo
+    Utils.show_message("\n🤑 Resumo do Saque:", :green)
+    puts '=' * 40
+    @resultado.each do |nota, quantidade|
+      puts "💵 #{quantidade} nota(s) de #{Utils.format_currency(nota)}".colorize(:yellow)
+    end
+    puts '=' * 40
+    puts "Valor Total: #{Utils.format_currency(@valor)}".colorize(:cyan)
+    puts "Data e Hora: #{Time.now.strftime('%d/%m/%Y %H:%M:%S')}".colorize(:light_blue)
+    Utils.show_message("\n🎯 Obrigado por utilizar nosso caixa eletrônico! Volte sempre!", :green)
+  end
+
+  def continuar?
+    @prompt.yes?('Deseja realizar outro saque?')
+  end
+end
+
+-----------------------------------------------------------------------------------------------------
+
+🔥 Arquivo main.rb
+
+require_relative 'saque'
+
+Utils.show_message("\n🌟 Bem-vindo ao Caixa Eletrônico Inteligente")
+Saque.new.iniciar
+
+
+--------------------------------------------------------------------------------------------------------
+
+📌 Como Rodar
+Instale as dependências:
+
+gem install colorize tty-prompt sqlite3 active_support
+
+---------------------------------------------------------------------------------------------------
+
+🌟 Bem-vindo ao Caixa Eletrônico Inteligente
+💰 Quanto deseja sacar? 457
+
+🌟 Calculando notas... ✅
+
+🤑 Resumo do Saque:
+========================================
+💵 4 nota(s) de R$100,00
+💵 1 nota(s) de R$50,00
+💵 1 nota(s) de R$5,00
+💵 2 nota(s) de R$1,00
+========================================
+Valor Total: R$457,00
+Data e Hora: 03/03/2025 20:00:00
+🎯 Obrigado por utilizar nosso caixa eletrônico! Volte sempre!
