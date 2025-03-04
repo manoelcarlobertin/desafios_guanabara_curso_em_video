@@ -15,6 +15,13 @@ Encapsulamento	✅
 Escalabilidade
 
 📦 Gems Utilizadas
+
+antes:
+cd ATM_Caixa_Eletronico/
+rodar ->>>  gem install colorize tty-prompt sqlite3 active_support
+
+Execute: ruby main.rb
+
 tty-prompt
 tty-spinner
 colorize
@@ -22,6 +29,15 @@ sqlite3
 json
 active_support
 active_support/core_ext
+
+🔥 Explicação 🔥
+O ActiveSupport é uma biblioteca do framework Ruby on Rails, usada para adicionar:
+
+Manipulação de datas
+Strings
+Arrays
+Hashes
+Métodos auxiliares
 
 📌 Estrutura de Pastas
 
