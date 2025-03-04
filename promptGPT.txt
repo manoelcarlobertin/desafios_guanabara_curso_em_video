@@ -1,0 +1,59 @@
+Quero que converta esse código abaixo para Ruby, com Modularização com Responsabilidade Única, Validações centralizadas, Melhoria na legibilidade do código, Prevenção contra valores nil, Método único para mensagens amigaveis, divertidas, coloridas e com emojis, Criar métodos utilitários para reutilizar, código mais limpo, escalável, que valide a entrada do valor do saque para valores inteiros positivos, que organize a ordem do algorítimo, que tenha comentários em portugues no código, que utilize nomes de variáveis amigáveis e compreensivas para o contexto de saque em caixa eletrônico, que tenha a opção para corrigir o valor do saque digitado pelo usuário, a separação da lógica de negócios da lógica de exibição, Melhor tratamento de erros, a melhor técnica de padrões de projetos em Ruby, que tenha a opção do usuário de continuar ou não sacando o dinheiro, Interface interativa via terminal usando as gems: TTY::Prompt, TTY::Spinner, Colorize, Backup Automático a fim de que 
+os dados ficam gravados no formato JSON de forma automática no bando de dados Sqlite3, evitando perda de informações quando o programa é encerrado., ActiveSupport, que tenha a Facilidade na Integração
+No futuro, caso o sistema evolua para uma aplicação com banco de dados ou API web ou Aplicações mobile, quando se pensa em organização de dados, persistência e escalabilidade, Código DRY, Segurança, Prevenção contra valores nil, que utilize case, try e rescue para tratar mensagens de erros, Separação da lógica de negócios da lógica de exibição, que também Exibir o resumo final melhorado, formal e muito educado com o cliente, data e hora do saque, require 'io/console', require 'date',  'active_support/core_ext', 'tty-prompt', Solução UTF-8 + Moeda Brasileira (R$), Saída Bonita e simétrica na tela do computador, Encapsulamento, e se possível Uso do yield para melhorar a lógica:
+
+sac = int(input("\nQuanto será sacado do caixa?: R$"))
+ced1 = ced2 = ced5 = ced10 = ced20 = ced50 = ced100 = give = 0
+str_sac = str(sac)
+
+if len(str_sac) >= 1:  # SE FOR MILHAR
+    while give <= sac:  # notas de 100
+        give += 100
+        ced100 += 1
+    give -= 100
+    ced100 -= 1
+    if sac - give >= 50:  # notas de 50
+        while give <= sac:
+            give += 50
+            ced50 += 1
+        give -= 50
+        ced50 -= 1
+    if sac - give >= 20:  # notas de 20
+        while give <= sac:
+            give += 20
+            ced20 += 1
+        give -= 20
+        ced20 -= 1
+    if sac - give >= 10:  # notas de 10
+        while give <= sac:
+            give += 10
+            ced10 += 1
+        give -= 10
+        ced10 -= 1
+    if sac - give >= 5:  # notas de 5
+        while give <= sac:
+            give += 5
+            ced5 += 1
+        give -= 5
+        ced5 -= 1
+    if sac - give >= 2:  # notas de 2
+        while give <= sac:
+            give += 2
+            ced2 += 1
+        give -= 2
+        ced2 -= 1
+    if sac - give >= 1:  # notas de 1
+        while give <= sac:
+            give += 1
+            ced1 += 1
+        give -= 1
+        ced1 -= 1
+
+print(f"{'CAIXA':=^30}")
+print(f"Cédula(s) de R$100,00: {ced100}")
+print(f"Cédula(s) de R$50,00: {ced50}")
+print(f"Cédula(s) de R$20,00: {ced20}")
+print(f"Cédula(s) de R$10,00: {ced10}")
+print(f"Cédula(s) de R$5,00: {ced5}")
+print(f"Cédula(s) de R$2,00: {ced2}")
+print(f"Cédula(s) de R$1,00: {ced1}")
