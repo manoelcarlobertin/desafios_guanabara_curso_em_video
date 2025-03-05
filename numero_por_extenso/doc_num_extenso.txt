@@ -1,0 +1,41 @@
+🎯 Objetivo do Código
+
+Esse programa permite que o usuário:
+
+Digite números inteiros entre 0 e 20
+Receba a saída do número por extenso
+Pergunte se deseja continuar
+Finalize o programa com uma mensagem simpática e colorida
+
+🛠️ Gems Utilizadas:
+
+tty-prompt ➡ Interface interativa
+colorize ➡ Mensagens coloridas
+tty-spinner ➡ Animações
+sqlite3 ➡ Banco de dados para persistência
+json ➡ Backup Automático
+active_support ➡ Extensão de datas e strings
+
+🔥 Backup Automático:
+
+Os números digitados são salvos automaticamente no banco SQLite3 com:
+
+Número
+Descrição por extenso
+Data e Hora
+
+🎯 Recomendação Final:
+
+Se quiser que eu automatize a geração dessa array para outros idiomas
+
+como Inglês ou Espanhol usando I18n, é só dizer: 👉 "Quero o sistema multilíngue 🔥🌐"!
+
+🔥 Sistema Multilíngue em Ruby com Suporte a PT-BR, EN e ES
+
+📌 Objetivo:
+
+O usuário poderá escolher o idioma logo ao iniciar o sistema.
+A saída dos números por extenso será exibida no idioma escolhido.
+Todas as mensagens serão traduzidas automaticamente.
+O código será modular, escalável e fácil de adicionar novos idiomas no futuro.
+

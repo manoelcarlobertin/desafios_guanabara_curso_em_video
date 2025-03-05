@@ -1,0 +1,9 @@
+en:
+  welcome: "🌟 Welcome to the Number to Words Converter!"
+  ask_number: "🔢 Enter a number between 0 and 20:"
+  only_positive_numbers: "⚠️ Only positive numbers between 0 and 20 are allowed."
+  continue: "🔄 Do you want to continue?"
+  thank_you: "✨ Thank you for using our system! Come back soon!"
+  saved: "💾 Number %{number} successfully registered!"
+  calculating: "🚀 Calculating number..."
+

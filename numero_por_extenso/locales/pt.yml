@@ -1,0 +1,8 @@
+pt:
+  welcome: "🌟 Bem-vindo ao Conversor de Números por Extenso!"
+  ask_number: "🔢 Digite um número entre 0 e 20:"
+  only_positive_numbers: "⚠️ Apenas números inteiros entre 0 e 20 são permitidos."
+  continue: "🔄 Deseja continuar?"
+  thank_you: "✨ Obrigado por utilizar nosso sistema. Volte sempre!"
+  saved: "💾 Número %{number} registrado com sucesso!"
+  calculating: "🚀 Calculando número..."
