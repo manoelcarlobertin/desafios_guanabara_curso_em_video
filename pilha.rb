@@ -86,14 +86,27 @@ module ValidacaoParenteses
       elsif PARES.keys.include?(caractere)
         # Se for um caractere de fechamento, verifica se corresponde ao último aberto
         if pilha.empty? || pilha.last != PARES[caractere]
-          return false
+          return false, pilha
         else
           pilha.pop
         end
       end
     end
     # No final, se a pilha estiver vazia, todos os caracteres foram balanceados
-    pilha.empty?
+    [pilha.empty?, pilha]
+  end
+
+  def self.corrigir_expressao(expressao, pilha)
+    expressao_corrigida = expressao.dup
+    # Adiciona os caracteres de fechamento que faltam
+    pilha.reverse.each do |caractere|
+      case caractere
+      when '(' then expressao_corrigida += ')'
+      when '{' then expressao_corrigida += '}'
+      when '[' then expressao_corrigida += ']'
+      end
+    end
+    expressao_corrigida
   end
 end
 
@@ -118,10 +131,23 @@ def main
       next
     end
 
-    if ValidacaoParenteses.balanceados?(expressao)
-      Mensagens.mensagem("Resultado", "A expressão está \033[32mbalanceada\033[m! 🎉", :verde)
+    balanceada, pilha = ValidacaoParenteses.balanceados?(expressao)
+
+    if balanceada
+      Mensagens.mensagem("Resultado", "A expressão está \033[32m * balanceada * \033[m! 🎉", :verde)
     else
-      Mensagens.mensagem("Resultado", "A expressão está \033[31mdesbalanceada\033[m! ❌", :vermelho)
+      Mensagens.mensagem("Resultado", "A expressão está \033[31m * desbalanceada * \033[m! ❌", :vermelho)
+
+    # Mostra o que faltou para balancear
+      if pilha.any?
+        puts "Faltou fechar: #{pilha.reverse.map { |c| ValidacaoParenteses::PARES.key(c) }.join(', ')}"
+      else
+        puts "Há parênteses, colchetes ou chaves fechados sem abertura correspondente."
+      end
+
+      # Corrige a expressão e exibe
+      expressao_corrigida = ValidacaoParenteses.corrigir_expressao(expressao, pilha)
+      puts "Expressão corrigida: \033[33m#{expressao_corrigida}\033[m"
     end
   end
 end
