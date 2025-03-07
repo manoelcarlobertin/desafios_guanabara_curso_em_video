@@ -36,15 +36,15 @@ class StudentReport
 
   # Exibe os estudantes cadastrados
   def display_students
-    puts '\n📄 Listagem dos Estudantes Cadastrados na Turma:'.colorize(:magenta).bold
+    puts '📄 Listagem dos Estudantes Cadastrados na Turma:'.colorize(:magenta).bold
     puts '-' * 50
-    puts "No. Nome             Notas               Média   Situação"
+    puts "No. Nome               Notas       Média   Situação"
 
     @students.each_with_index do |student, index|
       spacing = index < 9 ? ' ' : ''
       average = student[:average]
       situation = student_status(average)
-      puts "#{spacing}#{index + 1}. #{student[:name].ljust(15)} 📝 #{student[:grades].join(', ')} #{average.to_s.ljust(7)} #{situation}"
+      puts "#{spacing}#{index + 1}. #{student[:name].ljust(15)} 📝 #{student[:grades].join(', ')}   #{average.to_s.ljust(7)} #{situation}"
       # puts "#{index + 1}. #{spacing} #{student[:name].ljust(15)} 📝 Notas: #{student[:grades].join(', ')}"
     end
     puts '-' * 50
@@ -80,6 +80,7 @@ class StudentReport
   def start
     puts "⏰ Gerando Lista de Estudantes...".colorize(:cyan)
     sleep(0.5)
+    puts ''
     generate_students
     sleep(0.5)
     display_students
