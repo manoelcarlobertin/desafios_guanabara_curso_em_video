@@ -61,7 +61,20 @@ class Database
 
   def list_students
     # SELECT (Consultar dados)->> Usado para recuperar dados de uma ou mais tabelas.
-    @db.execute('SELECT id, name, average, status FROM students')
+    students = @db.execute('SELECT id, name, average, status FROM students')
+
+    puts "\n📄 Estudantes Cadastrados".colorize(:blue)
+    puts '=' * 60
+
+    # Itera sobre os alunos e exibe com números ordinais
+    students.each_with_index do |row, index|
+      ordinal = (index + 1).ordinalize # Gera o número ordinal (1º, 2º, 3º, etc.)
+      id = row[0]
+      spacing = id.between?(0, 9) ? ' ' : ''
+      puts "#{ordinal}. #{row[1].ljust(15)} | Média: #{row[2]} | Situação: #{row[3]}"
+    end
+    # Ordinais apenas para exibição e não precisam ser armazenados.
+    puts '=' * 60
   end
 
   def find_student_by_id(id)
@@ -69,7 +82,31 @@ class Database
   end
 
   def delete_student_by_id(id)
-    @db.execute('DELETE FROM students WHERE id = ?', id)
+    # Verifica se o ID é válido
+    unless id.is_a?(Integer) && id.positive?
+      puts "❌ ID inválido! O ID deve ser um número positivo.".colorize(:red)
+      return false
+    end
+
+    # Verifica se o aluno existe
+    student = @db.execute('SELECT name FROM students WHERE id = ?', id).first
+    unless student
+      puts "❌ Aluno com ID #{id} não encontrado.".colorize(:red)
+      return false
+    end
+
+    # Confirmação do usuário antes de excluir
+    puts "Tem certeza que deseja apagar o aluno #{student[0]}? (s/n)".colorize(:yellow)
+    confirmation = gets.chomp.downcase
+
+    if confirmation == 's'
+      @db.execute('DELETE FROM students WHERE id = ?', id)
+      puts "✅ Aluno #{student[0]} apagado com sucesso!".colorize(:green)
+      true
+    else
+      puts "🚫 Operação cancelada.".colorize(:yellow)
+      false
+    end
   end
 
   def delete_all_students
